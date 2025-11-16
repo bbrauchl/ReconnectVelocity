@@ -18,7 +18,7 @@ public class PostgreSQLStorage extends StorageMethod {
         ReconnectConfig config = ReconnectVelocity.get().getConfig();
 
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setDriverClassName(org.mariadb.jdbc.Driver.class.getName());
+        hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
         if (config.storage.data.connectionParameters.useJdbcString) {
             hikariConfig.setJdbcUrl(config.storage.data.connectionParameters.jdbcString);
         } else {
