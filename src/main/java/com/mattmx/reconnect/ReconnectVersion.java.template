@@ -1,0 +1,5 @@
+package com.mattmx.reconnect;
+
+public final class ReconnectVersion {
+    public static final String VERSION = "${version}";
+}
