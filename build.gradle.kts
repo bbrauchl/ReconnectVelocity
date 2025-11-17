@@ -1,7 +1,7 @@
 plugins {
-    id("pl.allegro.tech.build.axion-release") version "1.14.3"
+    id("pl.allegro.tech.build.axion-release") version "1.21.0"
     id("java")
-    id("java-gradle-plugin")
+    // id("java-gradle-plugin")
 
     alias(libs.plugins.shadow) apply true
     alias(libs.plugins.runVelocity)
@@ -44,6 +44,16 @@ java {
 scmVersion {
     tag {
         prefix = "v"
+    }
+    versionIncrementer("incrementMinor") 
+    versionCreator("versionWithCommitHash")
+    ignoreUncommittedChanges.set(false)
+
+    // allow snapshot versions
+    checks { 
+        uncommittedChanges.set(false)
+        aheadOfRemote.set(false)
+        snapshotDependencies.set(false)
     }
 }
 

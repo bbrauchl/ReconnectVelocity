@@ -28,14 +28,14 @@ import java.util.Objects;
 @Plugin(
     id = "reconnect",
     name = "ReconnectVelocity",
-    version = ReconnectVersion.VERSION
-    // description = "Reconnect your players to their last server...",
-    // url = "https://www.mattmx.com/",
-    // authors = {"MattMX", "bbrauchl"},
-    // dependencies = {
-    //     @Dependency(id = "litebans", optional = true),
-    //     @Dependency(id = "luckperms", optional = true)
-    // }
+    version = ReconnectVersion.VERSION,
+    description = "Reconnect your players to their last server...",
+    url = "https://www.mattmx.com/",
+    authors = {"MattMX", "bbrauchl"},
+    dependencies = {
+        @Dependency(id = "litebans", optional = true),
+        @Dependency(id = "luckperms", optional = true)
+    }
 )
 public class ReconnectVelocity {
     private static @Nullable ReconnectVelocity instance;
@@ -135,10 +135,11 @@ public class ReconnectVelocity {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
+        getLogger().info("Loading Reconnect...");
         loadStorage();
 
         getProxy().getEventManager().register(this, new ReconnectListener(this));
-        getLogger().info("Loaded Reconnect " + ReconnectVersion.VERSION);
+        getLogger().info("Loaded Reconnect: " + ReconnectVersion.VERSION);
     }
 
     @Subscribe
