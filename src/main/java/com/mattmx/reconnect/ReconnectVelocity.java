@@ -2,7 +2,6 @@ package com.mattmx.reconnect;
 
 import com.google.inject.Inject;
 import com.mattmx.reconnect.storage.*;
-import com.mattmx.reconnect.util.updater.UpdateChecker;
 import com.moandjiezana.toml.TomlWriter;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -47,7 +46,6 @@ public class ReconnectVelocity {
     private final YamlConfigurationLoader loader;
     private @Nullable ReconnectConfig config;
     private @Nullable StorageManager storage;
-    private UpdateChecker checker;
 
     @Inject
     public ReconnectVelocity(@Nullable ProxyServer server, @Nullable Logger logger, @DataDirectory @Nullable Path dataDirectory) {
@@ -76,22 +74,6 @@ public class ReconnectVelocity {
         }
 
         ReconnectCommand.register(this);
-
-        checker = new UpdateChecker();
-
-        if (getConfig().checkUpdates) {
-            String url = "https://api.github.com/repos/Matt-MX/ReconnectVelocity/releases/latest";
-            try {
-                if (checker.get(url).isLatest(this.getClass().getAnnotation(Plugin.class).version())) {
-                    getLogger().info("Running the latest version! ReconnectVelocity " + checker.getLatest());
-                } else {
-                    getLogger().info("Newer version available! ReconnectVelocity " + checker.getLatest());
-                    getLogger().info("Get it here: " + checker.getLink());
-                }
-            } catch (Exception failure) {
-                getLogger().info("Unable to get latest release!");
-            }
-        }
     }
 
     public void loadStorage() {
@@ -175,7 +157,4 @@ public class ReconnectVelocity {
         return Objects.requireNonNull(config);
     }
 
-    public UpdateChecker getUpdateChecker() {
-        return checker;
-    }
 }

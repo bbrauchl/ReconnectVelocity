@@ -11,9 +11,6 @@ public class ReconnectConfig {
     @Comment("For debugging purposes, recommended to disable.")
     boolean debug = false;
 
-    @Comment("Should we check for the latest version?")
-    boolean checkUpdates = true;
-
     @Comment("Do we want to send players a message when they are reconnected to a server?")
     public boolean messageOnReconnect = true;
     public List<String> reconnectMessage = List.of("<gray>You were reconnected to <white>%server%</white>.");

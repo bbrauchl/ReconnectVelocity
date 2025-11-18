@@ -2,8 +2,6 @@ package com.mattmx.reconnect;
 
 import com.mattmx.reconnect.hook.LiteBansHook;
 import com.mattmx.reconnect.util.MessageHelper;
-import com.mattmx.reconnect.util.VelocityChat;
-import com.mattmx.reconnect.util.updater.UpdateChecker;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.ResultedEvent.ComponentResult;
 import com.velocitypowered.api.event.connection.LoginEvent;
@@ -13,12 +11,8 @@ import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -98,21 +92,6 @@ public class ReconnectListener {
             .getStorageManager()
             .getStorageMethod()
             .setLastServer(event.getPlayer().getUniqueId(), event.getServer().getServerInfo().getName());
-    }
-
-    @Subscribe
-    public void onPlayerLogin(@NotNull LoginEvent event) {
-        if (!plugin.getConfig().checkUpdates) return;
-
-        UpdateChecker checker = plugin.getUpdateChecker();
-
-        if (!event.getPlayer().hasPermission("velocity.reconnect.admin")) return;
-        if (checker.isLatest()) return;
-
-        event.getPlayer()
-            .sendMessage(VelocityChat.color("<gold><bold>Reconnect</bold> <gray>» <blue>Newer version available! <white>Reconnect v" + checker.getLatest())
-                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, checker.getLink()))
-                .hoverEvent(HoverEvent.showText(VelocityChat.color("<gold>Click to update!"))));
     }
 
     @Subscribe
