@@ -5,6 +5,7 @@ import com.mattmx.reconnect.util.MessageHelper;
 import com.mattmx.reconnect.util.VelocityChat;
 import com.mattmx.reconnect.util.updater.UpdateChecker;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.ResultedEvent.ComponentResult;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.event.player.KickedFromServerEvent;
 import com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent;
@@ -12,8 +13,12 @@ import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -108,6 +113,19 @@ public class ReconnectListener {
             .sendMessage(VelocityChat.color("<gold><bold>Reconnect</bold> <gray>» <blue>Newer version available! <white>Reconnect v" + checker.getLatest())
                 .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, checker.getLink()))
                 .hoverEvent(HoverEvent.showText(VelocityChat.color("<gold>Click to update!"))));
+    }
+
+    @Subscribe
+    public void whitelistCheckOnLogin(@NotNull LoginEvent event) {
+        if (!plugin.getConfig().proxyJoinPermission) return;
+
+        if (!event.getPlayer().hasPermission("velocity.join")) 
+            event.setResult(
+                ComponentResult.denied(
+                    Component.text("You do not have permission to join this server!")
+                        .color(NamedTextColor.RED)
+                )
+            );
     }
 
     /**

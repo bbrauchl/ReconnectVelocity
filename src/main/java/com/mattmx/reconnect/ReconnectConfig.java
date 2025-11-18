@@ -29,6 +29,14 @@ public class ReconnectConfig {
         """)
     public boolean perServerPermission = false;
 
+    @Comment("""
+        For the full proxy, do want to make sure that user has permissions to join the network.
+        this effectively acts as a proxy-wide whitelist 
+                
+        permission: velocity.join
+        """)
+    public boolean proxyJoinPermission = true;
+
     @Comment("List any servers that you do not want people to reconnect to.")
     public List<String> blacklist = List.of();
 
